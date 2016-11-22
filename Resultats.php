@@ -68,13 +68,29 @@
 
         <div class="row">
 
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <p class="lead"><h4>Obtenir le résultat d'un vote</h4></p>
                 </br></br>
             </div>
             
             </br>
 
+            
+            <form class="form-inline">
+                <p>
+                    </br>
+                    <label>Résultat</label>
+                    <input type="number" name="vote" class="form-control" ng-model="main.resultatChiffre" />
+                    </br>
+                    <label>Clé publique</label>
+                    <input type="number" name="token" class="form-control" ng-model="main.key" />
+                    </br>
+                    <label>Clé privée</label>
+                    <input type="number" name="token" class="form-control" ng-model="main.secKey" />
+                    </br></br>
+                    <input type="submit" ng-click="main.decode()" value="Déchiffrer" />
+                </p>
+            </form>
             </br>
 			</br>
 
@@ -88,7 +104,7 @@
 
                                 <div class="form-group">
                                         
-                                    <label for="exampleInputName2">Entrez l'identifiant de votre question {{pub}}</label>
+                                    <label for="exampleInputName2">Entrez l'identifiant de votre question</label>
                                     <input type="number" ng-model="main.prenom" placeholder="Identifiant" id="id" name="id" class="form-control">
                                     </br>
                                     </br>
@@ -96,7 +112,7 @@
 
                                 <div class="form-group col-md-12">
                                     </br>
-                                    <button type="submit" value="Envoyer" ng-click="main.send()" class="btn btn-default">Envoyer</button> </br>
+                                    <button type="submit" value="Envoyer" class="btn btn-default">Envoyer</button> </br>
                                     </br>
                                     </br>
                                 </div>
@@ -123,11 +139,11 @@
                         // On récupère les 5 derniers billets
                         $id=$_POST['id'];
                         $req = $bdd->query("SELECT token, vote FROM Token WHERE id='$id'");
-                        $somme=0;
+                        $somme=1;
 
                         while ($donnees = $req->fetch())
                         {
-                            $somme=$somme + $donnees['vote'];
+                            $somme=$somme*$donnees['vote'];
                             
                 ?>
                 <div class="caption-full">

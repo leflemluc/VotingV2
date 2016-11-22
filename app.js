@@ -37,11 +37,21 @@ function MainCtrl(user, $scope) {
 	$scope.chiffre = 0;
 	$scope.pub=keys.pub.n.toString();
 	$scope.priv=keys.sec.lambda.toString();
+	var keyLogged = new BigInteger(self.key);
 	//erreur : probablement sur le bigint..
-	//var keysScope = paillier.publicKey(150, BigInteger(642454140861097,642454140861097,642454140861097));
+	var keysScope = paillier.publicKey(150, keyLogged);
+
+	var keySec = new BigInteger(self.secKey);
+	//var SecKeyScope = paillier.privateKey(keySec, keysScope);
 
 	self.encode = function() {
-		$scope.chiffre = keys.pub.encrypt(nbv(self.vote)).toString();
+		$scope.chiffre = keysScope.encrypt(nbv(self.vote)).toString();
+		// publicKey(200, self.key).bits;
+		// publicKey(self.key, 200).encrypt(nbv(self.vote))
+	}
+
+	self.decode = function() {
+		//$scope.resultat = SecKeyScope.decrypt(encABC).toString(10);
 		// publicKey(200, self.key).bits;
 		// publicKey(self.key, 200).encrypt(nbv(self.vote))
 	}
