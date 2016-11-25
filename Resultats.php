@@ -15,7 +15,7 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    	<title>Wesen - Digital certificates</title>
+    	<title>Voting</title>
 
     	<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/bootstrap.css" rel="stylesheet">
@@ -30,12 +30,12 @@
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Wesen</span>
+                    <span class="sr-only">Voting</span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="index.html">Wesen - Diplômes numériques</a>
+                <a class="navbar-brand" href="index.html">Voting - Plateforme de vote sécurisé</a>
             </div>
             
             
@@ -166,11 +166,16 @@
 
             
                 <p>
-                    La somme des voix vaut : </br>
+                    La somme chiffrée des voix vaut : </br>
                 <?php
                     }echo ($somme); // Fin de la boucle des billets
                     $req->closeCursor();}
                 ?>
+                </p>
+                </br>
+                </br>
+                <p>
+                    Reste à déchiffrer le résultat !
                 </p>
                 </div>
 

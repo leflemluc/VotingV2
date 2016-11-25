@@ -29,68 +29,48 @@ function userService($http, API) {
 
 function MainCtrl(user, $scope) {
   var self = this;
-	var jsonId={ prenom: 'prenom', nom: 'pilcer' };
-	var jsonIdHashed='';
-	var contract='';
-	var signedContract = '';
 	var keys = paillier.generateKeys(50);
-	$scope.chiffre = 0;
+	$scope.chiffre = 12;
 	$scope.pub=keys.pub.n.toString();
 	$scope.priv=keys.sec.lambda.toString();
-	var keyLogged = new BigInteger(self.key);
-	//erreur : probablement sur le bigint..
-	var keysScope = paillier.publicKey(150, keyLogged);
+	$scope.essai="Essai";
+	
+	//a supprimer
+	//$scope.pub=keysScope.n.toString();
 
-	var keySec = new BigInteger(self.secKey);
-	//var SecKeyScope = paillier.privateKey(keySec, keysScope);
 
-	self.encode = function() {
-		$scope.chiffre = keysScope.encrypt(nbv(self.vote)).toString();
+	$scope.encode = function() {
+		$scope.chiffre = $scope.key;
+
+// Je ne comprends pas comment fonctionne la transformation int --> BigInteger
+
+		var keyLogged = new BigInteger($scope.key.toString(), 64);
+	//  erreur ! ce n'est pas une public key....
+		var keysScope = new paillier.publicKey(150, keyLogged);
+		$scope.pub=keysScope.n.toString();
+	 	$scope.chiffre=keyLogged.toString();
+		
+		//$scope.chiffre = keysScope.n.toString();
+		
+		
+		//$scope.chiffre = keysScope.encrypt(nbv(self.vote)).toString();
+		
+		
 		// publicKey(200, self.key).bits;
 		// publicKey(self.key, 200).encrypt(nbv(self.vote))
 	}
 
 	self.decode = function() {
+		var keySec = new BigInteger(self.secKey.toString(), 64);
+		//keySec.toString()
+	//var SecKeyScope = paillier.privateKey(keys.sec.lambda, keys.pub);
+		var SecKeyScope = new paillier.privateKey(keySec, keys.pub);
+
+
 		//$scope.resultat = SecKeyScope.decrypt(encABC).toString(10);
 		// publicKey(200, self.key).bits;
 		// publicKey(self.key, 200).encrypt(nbv(self.vote))
 	}
-
-	self.send = function() {
-		jsonId['prenom']=self.prenom;
-		jsonId['nom']=self.nom;
-		var jsonIdString = JSON.stringify(jsonId);
-		jsonIdHashed=md5(jsonIdString);
-		alert(keys.pub.n);
-		alert(keys.sec.lambda);
-		
-		// Création du contrat
-		// Compilation du contrat & signature
-
-		// Envoi à l'API
-		user.send(signedContract)
-      .then(handleRequest, handleRequest)
-  }
-
-	self.check = function() {
-		jsonId['prenom']=self.prenom;
-		jsonId['nom']=self.nom;
-		var jsonIdString = JSON.stringify(jsonId);
-		jsonIdHashed=md5(jsonIdString);
-		alert(jsonIdHashed);
-		
-		// Création du contrat
-		// Compilation du contrat & signature
-
-		// Envoi à l'API
-		user.check(signedContract, self.block)
-      .then(handleRequest, handleRequest)
-
-
-  }
-  
-  
-  
 
 }
 

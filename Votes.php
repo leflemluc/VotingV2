@@ -14,7 +14,7 @@
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    	<title>Wesen - Digital certificates</title>
+    	<title>Voting</title>
 
     	<link href="css/bootstrap.min.css" rel="stylesheet">
 		<link href="css/bootstrap.css" rel="stylesheet">
@@ -115,7 +115,7 @@
 
                                 <div class="form-group col-md-12">
                                     </br>
-                                    <button ng-click="main.send()" class="btn btn-default">Envoyer</button> </br>
+                                    <button class="btn btn-default">Envoyer</button> </br>
                                     </br>
                                     </br>
                                 </div>
@@ -128,12 +128,12 @@
                 <p>
                     </br>
                     <label>Vote</label>
-                    <input type="number" name="vote" class="form-control" ng-model="main.vote" />
+                    <input type="number" name="vote" class="form-control" ng-model="vote" />
                     </br>
                     <label>Clé publique</label>
-                    <input type="number" name="token" class="form-control" ng-model="main.key" />
+                    <input type="number" name="token" class="form-control" ng-model="key" />
                     </br></br>
-                    <input type="submit" ng-click="main.encode()" value="Chiffrer" />
+                    <input type="submit" ng-click="encode()" value="Chiffrer" />
                 </p>
         </form>
 
@@ -181,8 +181,12 @@
             </p>
             </br>
 
-            <form class="form-inline" action="vote.php" method="post">
+            <form class="form-inline" action="Votes.php" method="post">
                 <p>
+                    <label>Identifiant de la question :</label>
+                    <select name="id">
+                        <option value="<?php echo $donnees['id']; ?>">id</option>
+                    </select>
                     </br>
                     <label>Vote chiffré</label>
                     <input type="number" name="vote" class="form-control" />
@@ -213,7 +217,18 @@
                 'question' => $_POST['Question'],
                 'key' => $_POST['PublicKey']
             ));
-            header('Location: index.php');
+            header('Location: Votes.php');
+    }
+    if (isset($_POST['vote']) AND isset($_POST['token']))
+    {
+            // Testons si le fichier n'est pas trop gros
+            $req = $bdd->prepare('INSERT INTO Token(id,token,vote) VALUES(:id,:token,:vote)');
+            $req->execute(array(
+                'id' => $_POST['id'],
+                'token' => $_POST['token'],
+                'vote' => $_POST['vote']
+            ));
+            header('Location: Votes.php');
     }
     ?>
                     
